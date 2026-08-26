@@ -14,62 +14,77 @@ use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder {
     public function run(): void {
-        // Mock JNTU Affiliated Institution
-        $college = College::create([
-            'code' => 'A5',
-            'name' => 'Aditya Institute of Technology and Management',
-            'location' => 'Tekkali, Andhra Pradesh'
+        $this->call([
+            CollegeSeeder::class,
         ]);
 
-        $cse = Course::create([
-            'college_id' => $college->id,
-            'name' => 'B.Tech Computer Science Engineering',
-            'branch_code' => 'CSE'
-        ]);
+        // Mock JNTU Affiliated Institution
+        $college = College::firstOrCreate(
+            ['college_code' => 'A5'],
+            [
+                'college_name' => 'Aditya Institute of Technology and Management',
+                'college_email' => 'admin@aditya.edu',
+                'college_mobile' => '9998887776',
+                'college_address' => 'Tekkali, Andhra Pradesh'
+            ]
+        );
+
+        $cse = Course::firstOrCreate(
+            ['branch_code' => 'CSE', 'college_id' => $college->id],
+            ['name' => 'B.Tech Computer Science Engineering']
+        );
 
         // Official JNTU AFRC regulated fee mapping structures
-        FeeStructure::create([
-            'course_id' => $cse->id,
-            'academic_year' => 2026,
-            'tuition_fee' => 43000.00,
-            'jntu_common_service_fee' => 1850.00,
-            'exam_fee' => 1200.00,
-            'library_fee' => 500.00,
-        ]);
+        FeeStructure::firstOrCreate(
+            ['course_id' => $cse->id, 'academic_year' => 2026],
+            [
+                'tuition_fee' => 43000.00,
+                'jntu_common_service_fee' => 1850.00,
+                'exam_fee' => 1200.00,
+                'library_fee' => 500.00,
+            ]
+        );
 
         // Admin User Generation
-        User::create([
-            'name' => 'JNTU Admin Desk',
-            'email' => 'admin@jntu.edu.in',
-            'password' => Hash::make('Admin@123'),
-            'role' => 'admin',
-            'college_id' => $college->id
-        ]);
+        User::firstOrCreate(
+            ['email' => 'admin@jntu.edu.in'],
+            [
+                'name' => 'JNTU Admin Desk',
+                'password' => Hash::make('Admin@123'),
+                'role' => 'admin',
+                'college_id' => $college->id
+            ]
+        );
 
         // Student Identity Generation
-        $studentUser = User::create([
-            'name' => 'Suresh Kumar',
-            'email' => 'suresh@jntu.edu.in',
-            'password' => Hash::make('Student@123'),
-            'role' => 'student',
-            'college_id' => $college->id
-        ]);
+        $studentUser = User::firstOrCreate(
+            ['email' => 'suresh@jntu.edu.in'],
+            [
+                'name' => 'Suresh Kumar',
+                'password' => Hash::make('Student@123'),
+                'role' => 'student',
+                'college_id' => $college->id
+            ]
+        );
 
-        $student = Student::create([
-            'user_id' => $studentUser->id,
-            'course_id' => $cse->id,
-            'admission_number' => '23A51A0501', // Standard JNTU formatting
-            'current_year' => 3,
-            'current_semester' => 1
-        ]);
+        $student = Student::firstOrCreate(
+            ['user_id' => $studentUser->id, 'admission_number' => '23A51A0501'], // Standard JNTU formatting
+            [
+                'course_id' => $cse->id,
+                'current_year' => 3,
+                'current_semester' => 1
+            ]
+        );
 
         // Seed initial history
-        Payment::create([
-            'student_id' => $student->id,
-            'transaction_id' => 'JNTUMOCK10293',
-            'amount_paid' => 20000.00,
-            'payment_mode' => 'Challan',
-            'remarks' => 'Partial Advanced Tuition Remittance'
-        ]);
+        Payment::firstOrCreate(
+            ['transaction_id' => 'JNTUMOCK10293'],
+            [
+                'student_id' => $student->id,
+                'amount_paid' => 20000.00,
+                'payment_mode' => 'Challan',
+                'remarks' => 'Partial Advanced Tuition Remittance'
+            ]
+        );
     }
 }
