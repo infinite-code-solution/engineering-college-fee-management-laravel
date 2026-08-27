@@ -9,9 +9,10 @@ return new class extends Migration {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('college_id')->constrained()->onDelete('cascade');
-            $table->string('name'); // B.Tech, M.Tech, MBA
-            $table->string('branch_code'); // CSE, ECE, MECH
+            $table->string('course_name'); // B.Tech, M.Tech, MBA
+            $table->string('course_code'); // CSE, ECE, MECH
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

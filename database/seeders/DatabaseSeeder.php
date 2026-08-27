@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder {
     public function run(): void {
         $this->call([
             CollegeSeeder::class,
+            AcademicYearSeeder::class,
         ]);
 
         // Mock JNTU Affiliated Institution
@@ -30,8 +31,8 @@ class DatabaseSeeder extends Seeder {
         );
 
         $cse = Course::firstOrCreate(
-            ['branch_code' => 'CSE', 'college_id' => $college->id],
-            ['name' => 'B.Tech Computer Science Engineering']
+            ['course_code' => 'CSE', 'college_id' => $college->id],
+            ['course_name' => 'B.Tech Computer Science Engineering']
         );
 
         // Official JNTU AFRC regulated fee mapping structures
