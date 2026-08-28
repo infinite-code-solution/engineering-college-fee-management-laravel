@@ -5,6 +5,8 @@ use App\Http\Controllers\FeeController;
 use App\Http\Controllers\CollegeController;
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\FeeStructureController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TestApiController;
@@ -37,4 +39,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/courses/{id}', [CourseController::class, 'show']);
     Route::put('/courses/{id}', [CourseController::class, 'update']);
     Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
+
+    Route::get('/students', [StudentController::class, 'index']);
+    Route::post('/students', [StudentController::class, 'store']);
+    Route::get('/students/{id}', [StudentController::class, 'show']);
+    Route::put('/students/{id}', [StudentController::class, 'update']);
+    Route::delete('/students/{id}', [StudentController::class, 'destroy']);
+
+    Route::get('/fee-structures', [FeeStructureController::class, 'index']);
+    Route::post('/fee-structures', [FeeStructureController::class, 'store']);
+    Route::get('/fee-structures/{id}', [FeeStructureController::class, 'show']);
+    Route::put('/fee-structures/{id}', [FeeStructureController::class, 'update']);
+    Route::delete('/fee-structures/{id}', [FeeStructureController::class, 'destroy']);
 });

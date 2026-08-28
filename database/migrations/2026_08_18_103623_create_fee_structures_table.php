@@ -8,6 +8,7 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('fee_structures', function (Blueprint $table) {
             $table->id();
+            $table->string('fee_structure_name')->unique();
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
             $table->integer('academic_year'); 
             $table->decimal('tuition_fee', 10, 2);
@@ -15,6 +16,7 @@ return new class extends Migration {
             $table->decimal('exam_fee', 10, 2);
             $table->decimal('library_fee', 10, 2);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

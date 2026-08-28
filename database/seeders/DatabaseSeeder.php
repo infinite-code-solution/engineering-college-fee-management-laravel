@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder {
 
         // Official JNTU AFRC regulated fee mapping structures
         FeeStructure::firstOrCreate(
-            ['course_id' => $cse->id, 'academic_year' => 2026],
+            ['fee_structure_name' => '2026 CSE Standard Fee', 'course_id' => $cse->id, 'academic_year' => 2026],
             [
                 'tuition_fee' => 43000.00,
                 'jntu_common_service_fee' => 1850.00,
